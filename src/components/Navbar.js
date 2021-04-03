@@ -4,6 +4,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
     toolbar: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const Navbar = (props) => {
     const classes = useStyles();
-    const { title } = props;
+    const { t } = useTranslation();
 
     return (
         <React.Fragment>
@@ -31,25 +32,8 @@ export const Navbar = (props) => {
                         noWrap
                         className={classes.toolbarTitle}
                     >
-                        {title}
+                        {t('scooter-map')}
                     </Typography>
-                    {/* <Button
-                        size="small"
-                        component={Link}
-                        to="/login"
-                        color="primary"
-                    >
-                        Log In
-                    </Button>
-                    <Button
-                        size="small"
-                        component={Link}
-                        to="/signup"
-                        variant="outlined"
-                        color="primary"
-                    >
-                        Sign Up
-                    </Button> */}
                 </Toolbar>
             </AppBar>
         </React.Fragment>

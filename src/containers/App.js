@@ -27,18 +27,18 @@ const theme = createMuiTheme({
 });
 export const App = () => {
     return (
-        // <React.StrictMode>
-        <I18nextProvider i18n={i18next}>
-            <MuiThemeProvider theme={theme}>
-                <ApolloProvider client={client}>
-                    <HashRouter>
-                        <Switch>
-                            <Route exact path="/" component={Dashboard} />
-                        </Switch>
-                    </HashRouter>
-                </ApolloProvider>
-            </MuiThemeProvider>
-        </I18nextProvider>
-        // </React.StrictMode>
+        <React.StrictMode>
+            <I18nextProvider i18n={i18next}>
+                <MuiThemeProvider theme={theme}>
+                    <ApolloProvider client={client}>
+                        <HashRouter>
+                            <Switch>
+                                <Route exact path="/" component={Dashboard} />
+                            </Switch>
+                        </HashRouter>
+                    </ApolloProvider>
+                </MuiThemeProvider>
+            </I18nextProvider>
+        </React.StrictMode>
     );
 };

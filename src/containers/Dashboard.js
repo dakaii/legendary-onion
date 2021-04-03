@@ -54,7 +54,7 @@ export const Dashboard = () => {
                 <Navbar title="Scooter Locator!" />
                 <main className={classes.mainContent}>
                     <Typography variant="h4" component="h4">
-                        {t('account-info')}
+                        {t('scooter-map')}
                     </Typography>
                     <Grid container spacing={1} className={classes.mainGrid}>
                         {/* {accountInfoItems.map((item) => (

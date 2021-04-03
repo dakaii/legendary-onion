@@ -4,11 +4,11 @@ import i18next from 'i18next';
 import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import { config } from '../constants/Constants';
+import { constants } from '../constants/constants';
 import { Dashboard } from './Dashboard';
 
 const client = new ApolloClient({
-    uri: config.API_URL + '/graphql',
+    uri: constants.API_URL + '/graphql',
     cache: new InMemoryCache(),
 });
 

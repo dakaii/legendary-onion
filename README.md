@@ -1,4 +1,4 @@
-# Watch List
+# Scooter Locator
 
 ## install the dependencies
 
@@ -11,11 +11,3 @@ npm install
 ```console
 npm start
 ```
-
-https://github.com/mui-org/material-ui/tree/master/docs/src/pages/getting-started/templates
-
-https://tsh.io/blog/react-state-management-react-hooks-vs-redux/
-
-https://thoughtbot.com/blog/using-redux-with-react-hooks
-
-https://blog.jakoblind.no/react-redux-hooks/

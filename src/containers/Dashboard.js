@@ -1,11 +1,11 @@
+import { gql, useQuery } from '@apollo/client';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import React from 'react';
+import { default as React, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AccountInfoItem } from '../components/AccountInfoItem';
 import { Footer } from '../components/Footer';
 import { Navbar } from '../components/Navbar';
 
@@ -18,30 +18,40 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const accountInfoItems = [
-    {
-        title: 'Organization Info',
-        description:
-            'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        url: '#/organization-info',
-    },
-    {
-        title: 'Product Info',
-        description:
-            'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        url: '#/product-info',
-    },
-];
+const LOCATE_SCOOTERS = gql`
+    query RootQuery {
+        scooter(
+            latitude: $latitude
+            longitude: $longitude
+            limit: $limit
+            distance: $distance
+        ) {
+            title
+            latitude
+            longitude
+        }
+    }
+`;
 
 export const Dashboard = () => {
     const classes = useStyles();
     const { t } = useTranslation();
+    const [latitude, setLatitude] = useState(1.3081602076594168);
+    const [longitude, setLongitude] = useState(103.85693886754095);
+    const [limit, setLimit] = useState(20);
+    const [distance, setDistance] = useState(5000);
+
+    const { loading, error, data } = useQuery(LOCATE_SCOOTERS, {
+        variables: { latitude, longitude, limit, distance },
+    });
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
 
     return (
         <React.Fragment>
             <CssBaseline />
             <Container maxWidth="lg">
-                <Navbar title="Legendary Tacos" />
+                <Navbar title="Scooter Locator!" />
                 <main className={classes.mainContent}>
                     <Typography variant="h4" component="h4">
                         {t('account-info')}

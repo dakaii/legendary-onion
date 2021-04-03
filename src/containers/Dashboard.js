@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LOCATE_SCOOTERS = gql`
-    query RootQuery {
+    query RootQuery ($latitude: Float!, $longitude: Float!, $limit: Int!, $distance: Int!) {
         scooter(
             latitude: $latitude
             longitude: $longitude

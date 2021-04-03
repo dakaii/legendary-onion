@@ -15,8 +15,8 @@ export const MapContainer = (props) => {
                 {points.map((place, i) => (
                     <Marker
                         key={i}
-                        lat={place.latitude}
-                        lng={place.longitude}
+                        lat={place.lat}
+                        lng={place.lng}
                         place={place}
                     />
                 ))}
@@ -29,23 +29,23 @@ const InfoWindow = (props) => {
     const { place } = props;
     const infoWindowStyle = {
         position: 'relative',
-		display: 'inline-block',
+        display: 'inline-block',
         bottom: 10,
         left: 15,
         backgroundColor: 'white',
         boxShadow: '0 2px 7px 1px rgba(0, 0, 0, 0.3)',
-		fontSize: 10,
+        fontSize: 10,
         padding: 2,
         zIndex: 100,
-		borderRadius: 2,
+        borderRadius: 2,
     };
 
     return (
         <div style={infoWindowStyle}>
             <div style={{ display: 'grid' }}>
-                <span>{place.title} </span> 
-                {/* <span>Latitude: {place.latitude.toFixed(5)}</span>
-                <span>Longitude: {place.longitude.toFixed(5)} </span> */}
+                <span>{place.title} </span>
+                {/* <span>lat: {place.lat.toFixed(5)}</span>
+                <span>lng: {place.lng.toFixed(5)} </span> */}
             </div>
         </div>
     );

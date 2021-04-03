@@ -4,6 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import { default as React, useState } from 'react';
 import { Footer } from '../components/Footer';
+import { FormDialog } from '../components/FormDialog';
 import { MapContainer } from '../components/MapContainer';
 import { Navbar } from '../components/Navbar';
 
@@ -11,22 +12,14 @@ const useStyles = makeStyles((theme) => ({
     mainContent: {
         padding: theme.spacing(10),
     },
-    mainGrid: {
-        margin: theme.spacing(0, 2),
-    },
 }));
 
 const LOCATE_SCOOTERS = gql`
     query RootQuery($lat: Float!, $lng: Float!, $limit: Int!, $distance: Int!) {
-        scooter(
-            latitude: $lat
-            longitude: $lng
-            limit: $limit
-            distance: $distance
-        ) {
+        scooter(lat: $lat, lng: $lng, limit: $limit, distance: $distance) {
             title
-            latitude
-            longitude
+            lat
+            lng
         }
     }
 `;
@@ -55,6 +48,19 @@ export const Dashboard = () => {
                         zoom={11}
                         points={data.scooter}
                     ></MapContainer>
+                    <div>
+                        <FormDialog
+                            className={classes.formDialog}
+                            lat={lat}
+                            setLat={setLat}
+                            lng={lng}
+                            setLng={setLng}
+                            limit={limit}
+                            setLimit={setLimit}
+                            distance={distance}
+                            setDistance={setDistance}
+                        />
+                    </div>
                 </main>
             </Container>
             <Footer

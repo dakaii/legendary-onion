@@ -44,21 +44,19 @@ const InfoWindow = (props) => {
         <div style={infoWindowStyle}>
             <div style={{ display: 'grid' }}>
                 <span>{place.title} </span>
-                {/* <span>lat: {place.lat.toFixed(5)}</span>
-                <span>lng: {place.lng.toFixed(5)} </span> */}
             </div>
         </div>
     );
 };
 
-const Marker = ({ show, place }) => {
+const Marker = ({ place }) => {
     const [hoverRef, isHovered] = useHover();
     const markerStyle = {
         border: '1px solid white',
         borderRadius: '50%',
         height: 10,
         width: 10,
-        backgroundColor: show ? 'red' : 'blue',
+        backgroundColor: isHovered ? 'red' : 'blue',
         cursor: 'pointer',
         zIndex: 10,
     };

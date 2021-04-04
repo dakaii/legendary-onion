@@ -4,27 +4,26 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
+import TextField from '@material-ui/core/TextField';
+import { useFormik } from 'formik';
 import React from 'react';
+import * as yup from 'yup';
 
 export const FormDialog = (props) => {
-    const { setLat, setLng, setLimit, setDistance } = props;
     const [open, setOpen] = React.useState(false);
-    const [values, setValues] = React.useState({
-        lat: props.lat,
-        lng: props.lng,
-        limit: props.limit,
-        distance: props.distance,
+    const formik = useFormik({
+        initialValues: {
+            lat: props.lat,
+            lng: props.lng,
+            limit: props.limit,
+            distance: props.distance,
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+            console.log(values)
+            alert(JSON.stringify(values, null, 2));
+        },
     });
-
-    const handleChange = (event) => {
-        setValues({
-            ...values,
-            [event.target.name]: event.target.value,
-        });
-    };
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -33,13 +32,13 @@ export const FormDialog = (props) => {
     const handleClose = () => {
         setOpen(false);
     };
-    const handleSubmit = () => {
-        setLat(values.lat);
-        setLng(values.lng);
-        setLimit(values.limit);
-        setDistance(values.distance);
-        setOpen(false);
-    };
+    // const handleSubmit = () => {
+    //     setLat(values.lat);
+    //     setLng(values.lng);
+    //     setLimit(values.limit);
+    //     setDistance(values.distance);
+    //     setOpen(false);
+    // };
 
     return (
         <div>
@@ -58,64 +57,101 @@ export const FormDialog = (props) => {
                 <DialogTitle id="form-dialog-title">
                     Query Parameters
                 </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        To search the scooters nearby, please enter the parameters
-                        here and click Submit.
-                    </DialogContentText>
-                    <FormControl fullWidth>
-                        <InputLabel>latitude</InputLabel>
-                        <Input
-                            value={values.lat}
-                            onChange={handleChange}
+                <form onSubmit={formik.handleSubmit}>
+                    <DialogContent>
+                        <DialogContentText>
+                            To search the scooters nearby, please enter the
+                            parameters here and click Submit.
+                        </DialogContentText>
+                        <TextField
+                            fullWidth
+                            label="latitude"
                             name="latitude"
                             id="latitude-input"
-                            type='number'
-                            step="0.1"
+                            value={formik.values.lat}
+                            onChange={formik.handleChange}
+                            type="number"
+                            errors={formik.touched.lat && formik.errors.lat}
+                            helperText={formik.touched.lat && formik.errors.lat}
                         />
-                    </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel>longitude</InputLabel>
-                        <Input
-                            value={values.lng}
-                            onChange={handleChange}
+                        <TextField
+                            fullWidth
+                            label="longitude"
                             name="longitude"
                             id="longitude-input"
-                            type='number'
+                            value={formik.values.lng}
+                            onChange={formik.handleChange}
+                            type="number"
+                            errors={formik.touched.lng && formik.errors.lng}
+                            helperText={formik.touched.lng && formik.errors.lng}
                         />
-                    </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel>limit</InputLabel>
-                        <Input
-                            value={values.limit}
-                            onChange={handleChange}
+                        <TextField
+                            fullWidth
+                            label="limit"
                             name="limit"
                             id="limit-input"
-                            type='number'
+                            value={formik.values.limit}
+                            onChange={formik.handleChange}
+                            type="number"
                             step="1"
+                            errors={formik.touched.limit && formik.errors.limit}
+                            helperText={
+                                formik.touched.limit && formik.errors.limit
+                            }
                         />
-                    </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel>distance</InputLabel>
-                        <Input
-                            value={values.distance}
-                            onChange={handleChange}
+                        <TextField
+                            fullWidth
+                            label="distance"
                             name="distance"
                             id="distance-input"
-                            type='number'
+                            value={formik.values.distance}
+                            onChange={formik.handleChange}
+                            type="number"
                             step="1"
+                            errors={
+                                formik.touched.distance &&
+                                formik.errors.distance
+                            }
+                            helperText={
+                                formik.touched.distance &&
+                                formik.errors.distance
+                            }
                         />
-                    </FormControl>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleSubmit} color="primary">
-                        Submit
-                    </Button>
-                </DialogActions>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            Cancel
+                        </Button>
+                        <Button type="submit" color="primary">
+                            Submit
+                        </Button>
+                    </DialogActions>
+                </form>
             </Dialog>
         </div>
     );
 };
+
+
+const validationSchema = yup.object({
+    lat: yup
+        .number('Enter the latitude')
+        .min(-90, 'Password should be of minimum 8 characters length')
+        .max(90, 'Password should be of minimum 8 characters length')
+        .required('Latitude is required'),
+    lng: yup
+        .number('Enter the longitude')
+        .min(-180, 'Password should be of minimum 8 characters length')
+        .max(180, 'Password should be of minimum 8 characters length')
+        .required('Longitude is required'),
+    limit: yup
+        .number('Enter the number of scooters you want to get the locations of')
+        .min(5, 'Minimum is 5')
+        .max(300, 'Maximum is 300 ')
+        .required('Limit is required'),
+    distance: yup
+        .number('Enter the search radius')
+        .min(10, 'Minimum is 10')
+        .max(10000, 'Maximum is 10000')
+        .required('Distance is required'),
+});

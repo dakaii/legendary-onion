@@ -26,8 +26,8 @@ const LOCATE_SCOOTERS = gql`
 
 export const Dashboard = () => {
     const classes = useStyles();
-    const [lat, setLat] = useState(1.3081602076594168);
-    const [lng, setLng] = useState(103.85693886754095);
+    const [lat, setLat] = useState(1.308160);
+    const [lng, setLng] = useState(103.856938);
     const [limit, setLimit] = useState(20);
     const [distance, setDistance] = useState(5000);
 

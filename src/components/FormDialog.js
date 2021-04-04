@@ -20,7 +20,7 @@ export const FormDialog = (props) => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            console.log(values)
+            console.log(values);
             alert(JSON.stringify(values, null, 2));
         },
     });
@@ -32,13 +32,6 @@ export const FormDialog = (props) => {
     const handleClose = () => {
         setOpen(false);
     };
-    // const handleSubmit = () => {
-    //     setLat(values.lat);
-    //     setLng(values.lng);
-    //     setLimit(values.limit);
-    //     setDistance(values.distance);
-    //     setOpen(false);
-    // };
 
     return (
         <div>
@@ -69,7 +62,9 @@ export const FormDialog = (props) => {
                             name="latitude"
                             id="latitude-input"
                             value={formik.values.lat}
-                            onChange={formik.handleChange}
+                            onChange={(event) =>
+                                formik.setFieldValue('lat', event.target.value)
+                            }
                             type="number"
                             errors={formik.touched.lat && formik.errors.lat}
                             helperText={formik.touched.lat && formik.errors.lat}
@@ -80,7 +75,10 @@ export const FormDialog = (props) => {
                             name="longitude"
                             id="longitude-input"
                             value={formik.values.lng}
-                            onChange={formik.handleChange}
+                            // onChange={formik.handleChange}
+                            onChange={(event) =>
+                                formik.setFieldValue('lat', event.target.value)
+                            }
                             type="number"
                             errors={formik.touched.lng && formik.errors.lng}
                             helperText={formik.touched.lng && formik.errors.lng}
@@ -93,7 +91,6 @@ export const FormDialog = (props) => {
                             value={formik.values.limit}
                             onChange={formik.handleChange}
                             type="number"
-                            step="1"
                             errors={formik.touched.limit && formik.errors.limit}
                             helperText={
                                 formik.touched.limit && formik.errors.limit
@@ -107,7 +104,6 @@ export const FormDialog = (props) => {
                             value={formik.values.distance}
                             onChange={formik.handleChange}
                             type="number"
-                            step="1"
                             errors={
                                 formik.touched.distance &&
                                 formik.errors.distance
@@ -122,7 +118,11 @@ export const FormDialog = (props) => {
                         <Button onClick={handleClose} color="primary">
                             Cancel
                         </Button>
-                        <Button type="submit" color="primary">
+                        <Button
+                            type="submit"
+                            color="primary"
+                            disabled={!formik.isValid}
+                        >
                             Submit
                         </Button>
                     </DialogActions>
@@ -131,7 +131,6 @@ export const FormDialog = (props) => {
         </div>
     );
 };
-
 
 const validationSchema = yup.object({
     lat: yup
@@ -155,3 +154,15 @@ const validationSchema = yup.object({
         .max(10000, 'Maximum is 10000')
         .required('Distance is required'),
 });
+
+const NumberFormatCustom = (props) => {
+    return (
+        <NumberFormat
+            {...props}
+            onValueChange={props.onChange}
+            thousandSeparator
+            isNumericString
+            allowNegative={true}
+        />
+    );
+};

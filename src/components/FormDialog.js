@@ -11,17 +11,18 @@ import * as yup from 'yup';
 
 export const FormDialog = (props) => {
     const [open, setOpen] = React.useState(false);
+    const { lat, lng, limit, distance } = props;
     const formik = useFormik({
         initialValues: {
-            lat: props.lat,
-            lng: props.lng,
-            limit: props.limit,
-            distance: props.distance,
+            lat,
+            lng,
+            limit,
+            distance,
         },
-        validationSchema: validationSchema,
+        validationSchema,
         onSubmit: (values) => {
-            console.log(values);
-            alert(JSON.stringify(values, null, 2));
+            props.onSubmit(values);
+            handleClose();
         },
     });
 
@@ -59,29 +60,24 @@ export const FormDialog = (props) => {
                         <TextField
                             fullWidth
                             label="latitude"
-                            name="latitude"
-                            id="latitude-input"
+                            name="lat"
+                            id="lat-input"
                             value={formik.values.lat}
-                            onChange={(event) =>
-                                formik.setFieldValue('lat', event.target.value)
-                            }
+                            onChange={formik.handleChange}
                             type="number"
                             errors={formik.touched.lat && formik.errors.lat}
-                            helperText={formik.touched.lat && formik.errors.lat}
+                            helperText={formik.errors.lat}
                         />
                         <TextField
                             fullWidth
                             label="longitude"
-                            name="longitude"
-                            id="longitude-input"
+                            name="lng"
+                            id="lng-input"
                             value={formik.values.lng}
-                            // onChange={formik.handleChange}
-                            onChange={(event) =>
-                                formik.setFieldValue('lat', event.target.value)
-                            }
+                            onChange={formik.handleChange}
                             type="number"
                             errors={formik.touched.lng && formik.errors.lng}
-                            helperText={formik.touched.lng && formik.errors.lng}
+                            helperText={formik.errors.lng}
                         />
                         <TextField
                             fullWidth
@@ -92,9 +88,7 @@ export const FormDialog = (props) => {
                             onChange={formik.handleChange}
                             type="number"
                             errors={formik.touched.limit && formik.errors.limit}
-                            helperText={
-                                formik.touched.limit && formik.errors.limit
-                            }
+                            helperText={formik.errors.limit}
                         />
                         <TextField
                             fullWidth
@@ -108,10 +102,7 @@ export const FormDialog = (props) => {
                                 formik.touched.distance &&
                                 formik.errors.distance
                             }
-                            helperText={
-                                formik.touched.distance &&
-                                formik.errors.distance
-                            }
+                            helperText={formik.errors.distance}
                         />
                     </DialogContent>
                     <DialogActions>
@@ -132,37 +123,34 @@ export const FormDialog = (props) => {
     );
 };
 
+const LAT_MIN = -90;
+const LAT_MAX = 90;
+const LNG_MIN = -180;
+const LNG_MAX = 180;
+const LIMIT_MIN = 5;
+const LIMIT_MAX = 300;
+const DIST_MIN = 10;
+const DIST_MAX = 10000;
+
 const validationSchema = yup.object({
     lat: yup
         .number('Enter the latitude')
-        .min(-90, 'Password should be of minimum 8 characters length')
-        .max(90, 'Password should be of minimum 8 characters length')
+        .min(LAT_MIN, `Minimum is ${LAT_MIN}`)
+        .max(LAT_MAX, `Maximum is ${LAT_MAX}`)
         .required('Latitude is required'),
     lng: yup
         .number('Enter the longitude')
-        .min(-180, 'Password should be of minimum 8 characters length')
-        .max(180, 'Password should be of minimum 8 characters length')
+        .min(LNG_MIN, `Minimum is ${LNG_MIN}`)
+        .max(LNG_MAX, `Maximum is ${LNG_MAX}`)
         .required('Longitude is required'),
     limit: yup
         .number('Enter the number of scooters you want to get the locations of')
-        .min(5, 'Minimum is 5')
-        .max(300, 'Maximum is 300 ')
+        .min(LIMIT_MIN, `Minimum is ${LIMIT_MIN}`)
+        .max(LIMIT_MAX, `Maximum is ${LIMIT_MAX}`)
         .required('Limit is required'),
     distance: yup
         .number('Enter the search radius')
-        .min(10, 'Minimum is 10')
-        .max(10000, 'Maximum is 10000')
+        .min(DIST_MIN, `Minimum is ${DIST_MIN}`)
+        .max(DIST_MAX, `Maximum is ${DIST_MAX}`)
         .required('Distance is required'),
 });
-
-const NumberFormatCustom = (props) => {
-    return (
-        <NumberFormat
-            {...props}
-            onValueChange={props.onChange}
-            thousandSeparator
-            isNumericString
-            allowNegative={true}
-        />
-    );
-};

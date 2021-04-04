@@ -75,8 +75,8 @@ export const Dashboard = () => {
                 </main>
             </Container>
             <Footer
-                title="Footer"
-                description="Something here to give the footer a purpose!"
+                title=""
+                description=""
             />
         </>
     );
